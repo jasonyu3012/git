@@ -1,3 +1,20 @@
+# Table of Contents
+
+[Setting up a repository](#setting-up-a-repository)
+
+[Checking and recording changes](#recording-any-changes)
+
+[Committing changes](#committing-your-changes)
+
+[Removing and renaming a file](#removing-a-file)
+
+[View commit history](#viewing-commit-history)
+
+[Undoing changes](#undoing-any-changes)
+
+---
+
+
 # First things when starting a project
 
 ## What is a git repository?
@@ -52,6 +69,8 @@ Each file can be in one of two states: tracked or untracked.
 `-v` explicitly places the diff of your change in the editor so you can exactly what changes you're committing
 
 `-a` commits all tracked files (no new files).
+
+If you want to amend a commit, see the [amend specifier](#undoing-any-changes).
 
 ---
 
