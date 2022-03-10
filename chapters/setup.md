@@ -21,6 +21,8 @@
 
 A git repository is a virtual storage of your project. It allows you to save versions of your code, which you can access when needed.
 
+This page will contain most of your commands for git.
+
 ---
 
 ## Setting up a repository
@@ -137,6 +139,20 @@ More specifiers on git's [documentation website](https://git-scm.com/docs/git-lo
 `git commit --amend -m "updated message"` or use the `--no-edit` specifer (for no message updates) takes the most recent commit and adds the new staged changes to it.
 
 *Only use this on local commits that have no been pushed anywhere*
+
+`git reset HEAD <file>` will remove a file from the staging area.
+
+`git restore` is an alternative to git reset, and is commonly used in git 2.23.0 and onwards.
+
+`git restore --staged <file>` to remove a file from the staging area.
+
+Unmodifying a modified file - well, `git status` will tell you how to discard changes.
+
+`git checkout -- <file>` will remove any local changes and replace that file with the last staged or committed version.
+
+`git restore <file>` will do the same thing.
+
+---
 
 `git branch -m main` - if you're creating a local repository first, git defaults to naming the default branch "master." We can use the branch command to change the name to "main" so that it matches github's default repository name.
 
