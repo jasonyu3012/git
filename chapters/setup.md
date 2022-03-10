@@ -12,6 +12,8 @@
 
 [Undoing changes](#undoing-any-changes)
 
+[Remotes](#working-with-remotes)
+
 ---
 
 
@@ -154,7 +156,60 @@ Unmodifying a modified file - well, `git status` will tell you how to discard ch
 
 ---
 
+## Working with remotes
+
+Remotes repositories are versions of your project hosted on the internet.
+
+`git remote` by itself lists the shortnames of each remote handle you've specified. If you've cloned your repository, you should see `origin`, the default name for the server you cloned from.
+
+`-v` shows you the URLs that git has stored. It may show multiple remotes, which means we can pull contributions from any of the user easily.
+
+`git remote add <shortname> <url>` - adds a new remote with shortname using the url.
+
+Now you can use the shortname of the remote instead of the whole URL, e.g. if it was pb you can run `git fetch pb`
+
+The pb branch is now accessible locally as pb/master and you can merge it into one of your branches or just check it out.
+
+---
+
+## Fetching and pulling from your remotes
+
+`git remote add <shortname> <url>` - Adds a remote named "name" (usually origin) with the URL of "url". The command `git fetch` can be used to 
+
+`get fetch <remote_shortname>` goes to remote project and pulls down all data from that remote that you haven't done yet. Only fetches the data, it does *NOT* merge it with anything you're working on.
+
+So if you clone someone else's repo and they've committed some extra work, can you run git fetch to see what they added.
+
+`git pull` will automatically fetch updates for all local branches, which tracks the remote branches, then merges.
+
+`git pull <remote_shortname> <branch>` will do that only for that particular branch.
+
 `git branch -m main` - if you're creating a local repository first, git defaults to naming the default branch "master." We can use the branch command to change the name to "main" so that it matches github's default repository name.
 
-`git remote add <name> <url>` - Adds a remote named "name" (usually origin) with the URL of "url". The command `git fetch` can be used to 
+---
+
+## Pushing to remotes
+
+When you have changes from your local repo you want to share, you have to push it upstream. You can use:
+
+`git push <remote> <branch>` which only works if you have write access to this remote and nobody has pushed before you. If someone has pushed before you, you'll have to pull their work first and then push.
+
+---
+
+## Inspecting a remote
+
+`git remote show <remote_shortname>` shows the URL for the remote repository as well as the tracking branch information. This is useful - it will tell you if you're on the main branch and if you run pull, it will merge the the remote main into your local main.
+
+It will also show remote branches on the server that you don't have, branches that are stale/removed, and the local branches 
+that will merge with the remote tracking branch if you run git pull.
+
+--
+
+## Renaming and removing removes
+
+`git remote rename <old_shortname> <new_shortname>` will rename the remote's shortname
+
+`git remote remove <shortname>` or `git remote rm <shortname>` will remove the remote, all tracking branches, and settings associated with that remote.
+
+---
 
