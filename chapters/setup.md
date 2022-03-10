@@ -14,6 +14,10 @@
 
 [Remotes](#working-with-remotes)
 
+[Tagging](#Tagging)
+
+[Aliases](#aliases)
+
 ---
 
 
@@ -176,7 +180,7 @@ The pb branch is now accessible locally as pb/master and you can merge it into o
 
 `git remote add <shortname> <url>` - Adds a remote named "name" (usually origin) with the URL of "url". The command `git fetch` can be used to 
 
-`get fetch <remote_shortname>` goes to remote project and pulls down all data from that remote that you haven't done yet. Only fetches the data, it does *NOT* merge it with anything you're working on.
+`git fetch <remote_shortname>` goes to remote project and pulls down all data from that remote that you haven't done yet. Only fetches the data, it does *NOT* merge it with anything you're working on.
 
 So if you clone someone else's repo and they've committed some extra work, can you run git fetch to see what they added.
 
