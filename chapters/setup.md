@@ -14,9 +14,9 @@
 
 [Remotes](#working-with-remotes)
 
-[Tagging](#Tagging)
+[Tagging](additionalquicktips.md#tagging)
 
-[Aliases](#aliases)
+[Aliases](additionalquicktips.md#git-alias)
 
 ---
 
