@@ -5,4 +5,6 @@ How to use git and github
 
 [Tagging and Aliases](chapters/additionalquicktips.md)
 
+[Branches](chapters/branches.md)
+
 hello world!

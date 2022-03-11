@@ -43,12 +43,34 @@ So now the testing branch has moved forward, but the master/main branch still po
 
 If you were to switch or checkout back to the master branch, *it will revert the files in your working directory back to the master snapshot*. This means any changes you make on this branch will diverge. This rewinds your work you've done in the testing branch so you can go in a different direction.
 
-If you make some changes now and commit them, those changes wil be isolated from testing. You can switch back and forth and merge them when ready. ![divergence](../diverge.png)
+If you make some changes now and commit them, those changes wil be isolated from testing. You can switch back and forth and merge them when ready. 
+
+![divergence](../diverge.png)
 
 ---
 
 ## Basic branching and Merging
 
+Assume we need to take the following course of action:
+
+1. Do some work on the main branch
+2. Create a new branch to work on a new feature
+3. Do some work in that branch
+
+But you receive a call to issue out a hotfix for a issue. You need to do the following
+
+1. Go back to the main branch (which is left the way before you worked on the feature branch)
+2. Create another branch to work on the hotfix
+3. Merge the hotfix branch with the main branch
+4. Go back to the feature branch and work on that.
+
+It's important to note in part 2 step 3, the hotfix merge looks like this:
+![hotfixpre](../hotfixpre.png)
+![hotfixpost](../hotfixpost.png)
+
+Because the merges are not divergent, git able to simply merge by fast forwarding, that is, moving the master branch pointer ahead.
+
+Now you can delete your hotfix branch because master/main is already inline with it.
 
 ---
 
@@ -57,6 +79,8 @@ If you make some changes now and commit them, those changes wil be isolated from
 `git branch` by itself shows all the current local branches, with a * next to your current branch
 
 `git branch <name>` creates a new branch pointer on the same commit you're working on.
+
+`git branch -d <branchname>` deletes the branch
 
 `git checkout <branchname>` will switch you to branchname's branch
 
@@ -72,6 +96,15 @@ Note: you can use switch now in git 2.23
 `git switch -` return to last checked out branch
 
 ---
+
+merging
+
+`git checkout master` or the branch that you're merging into
+
+`git merge <branch>` will merge that branch into your checked-out branch
+
+---
+
 
 `git status` or `git log --decorate` should let you know what branch you're on.
 

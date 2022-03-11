@@ -180,15 +180,15 @@ The pb branch is now accessible locally as pb/master and you can merge it into o
 
 ## Fetching and pulling from your remotes
 
-`git remote add <shortname> <url>` - Adds a remote named "name" (usually origin) with the URL of "url". The command `git fetch` can be used to 
+`git remote add <shortname> <url>` - Adds a remote named "name" (usually origin) with the URL of "url".
 
-`git fetch <remote_shortname>` goes to remote project and pulls down all data from that remote that you haven't done yet. Only fetches the data, it does *NOT* merge it with anything you're working on.
+`git fetch <remote_shortname>` goes to remote project and pulls down all data from that remote that you haven't done yet. Only fetches the commits, it does *NOT* merge it with anything you're working on.
 
-So if you clone someone else's repo and they've committed some extra work, can you run git fetch to see what they added.
+So if you clone someone else's repo and they've committed some extra work on dev branch, you can run git fetch to see what they've added, and then merge it with your dev branch (or later your main branch) if you'd like,
 
-`git pull` will automatically fetch updates for all local branches, which tracks the remote branches, then merges.
+`git pull` will *fetch* new commits for all branches, but it will only merge new commits of the tracked remote branch into the checked-out branch.
 
-`git pull <remote_shortname> <branch>` will do that only for that particular branch.
+`git pull <remote_shortname> <branch>` will merge the specified branch of the remote into your current checked-out branch.
 
 `git branch -m main` - if you're creating a local repository first, git defaults to naming the default branch "master." We can use the branch command to change the name to "main" so that it matches github's default repository name.
 
@@ -199,6 +199,8 @@ So if you clone someone else's repo and they've committed some extra work, can y
 When you have changes from your local repo you want to share, you have to push it upstream. You can use:
 
 `git push <remote> <branch>` which only works if you have write access to this remote and nobody has pushed before you. If someone has pushed before you, you'll have to pull their work first and then push.
+
+`-u` this flag (only necessary on first push!) makes it so that you push and track the new branch.
 
 ---
 
