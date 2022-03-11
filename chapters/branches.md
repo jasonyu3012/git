@@ -47,6 +47,8 @@ If you make some changes now and commit them, those changes wil be isolated from
 
 ---
 
+## Basic branching and Merging
+
 
 ---
 
