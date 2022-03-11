@@ -62,11 +62,13 @@ Each file can be in one of two states: tracked or untracked.
 
 `git diff --staged` will let you know the differences of the files in the staged area
 
-`git add <filename>` adds a file to staging area for it to be committed. We can add a markdown file (such as README.md) to start.
+`git add <filename> <filename2> <filepath3>` adds a file to staging area for it to be committed. We can add a markdown file (such as README.md) to start.
 
 - git add will stage a file exactly how it is when you run the add command. Meaning if you stage a file and change it again, you will have to stage it again.
 
-`-a` - adds all tracked files (so no new files)
+`-A` - adds all files (so including new ones)
+
+`git add .` - stages new files and modifications, no deletions
 
 ---
 
