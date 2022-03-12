@@ -72,15 +72,98 @@ Because the merges are not divergent, git able to simply merge by fast forwardin
 
 Now you can delete your hotfix branch because master/main is already inline with it.
 
+But as you work on the feature branch (shown as iss53 in the pictures), there will be a divergence. You check out into master/main again and merge. But this one won't be a fast forward, as the divergence means that you have to combine the commits of the common ancestor, the feature branch, and the hotfix into 1 snapshot.
+
+Before:
+
+![threepointmergepre](../threepointtruepre.png)
+
+After:
+
+![threepointmergepost](../3pointpost.png)
+
+There will be merge conflicts sometimes. Think about it. If you change different parts of the file, it will just combine the differences. But if the branches change the same part of the file, it will conflict.
+
+`git status` will let you know, and the file will contain a section like this:
+
+```
+<<<<<<< HEAD:index.html
+<div id="footer">contact : email.support@github.com</div>
+=======
+<div id="footer">
+please contact us at support@github.com
+</div>
+>>>>>>> iss53:index.html
+```
+
+The HEAD (on the master branch, which is what you merged into) is above the ======, and the iss53 branch is below it.
+
+You can choose one or the other, or merge them yourself.
+
+Afterwards, run `gitadd`, as staging the file marks it as resolve.
+
+Then just `git commit` to conclude the merge.
+
+More about merging in advanced merging.
+
+---
+
+## Branch Management
+
+`git branch` with no arguments gets a listing of your current branches
+
+`-v` shows the last single commit on each branch
+
+`--merged` and `--no-merged` lists branches that have merged into your checked-out branch.
+
+Add a `<branchname>` in order to apply the merge command to that specific branch.
+
+The branches that `--merged` lists that don't have the * next to them are generally fine to delete.
+
+`--no-merged`  will show branches not yet merched. 
+
+To delete unmerged branches, you need to use `git branch -D <branchname>`.
+
+---
+
+## Changing a branch name
+
+You can a branch name via:
+
+`git branch --move <prebranchname> <postbranchname>`
+
+Then push the correct branch to remote:
+
+`git push --set-upstream origin <postbranchname>`
+
+Then delete the bad branch from remote with:
+
+`git push origin --delete <prebranchname>`
+
+NOTE: changing the master/main branch of a work in progress repo will break intergrations and services. Change it on a newly started project or talk to your collaborators.
+
+- Code that depend on the original maaster will need to update code and config.
+- Adjust release scripts and builds.
+- Update references in documentation
+- Close or merge any pull requests that target the old branch.
+
+Only then can you delete the old branch master.
+
 ---
 
 ## Branch commands
 
 `git branch` by itself shows all the current local branches, with a * next to your current branch
 
+`-v` shows the last single commit on each branch
+
+`--merged` and `--no-merged` lists branches that have merged into your checked-out branch.
+
 `git branch <name>` creates a new branch pointer on the same commit you're working on.
 
-`git branch -d <branchname>` deletes the branch
+`git branch -d <branchname>` deletes the merged branch
+
+`git branch -D <branchname>` deletes unmerged branch
 
 `git checkout <branchname>` will switch you to branchname's branch
 
@@ -102,6 +185,7 @@ merging
 `git checkout master` or the branch that you're merging into
 
 `git merge <branch>` will merge that branch into your checked-out branch
+
 
 ---
 
