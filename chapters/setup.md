@@ -102,7 +102,11 @@ If you want to amend a commit, see the [amend specifier](#undoing-any-changes).
 
 ## Viewing commit history
 
-`git log` - lists the recent commits in reverse chronological order (meaning latest commit will be first). To navigate, use:
+`git log` - lists the recent commits in reverse chronological order (meaning latest commit will be first). 
+
+Note: It only shows the log of the *current* branch reference/pointer. More info in [branching](branches.md#branch-commands)
+
+To navigate, use:
 
 ```
 next line : return

@@ -4,6 +4,26 @@ Note on branches.
 
 Jump to [here](#branch-commands) if you just want the commands.
 
+TOC:
+
+[Overview](#quick-overview)
+
+[Creating a new branch](#creating-a-new-branch)
+
+[Switching branches](#switching-branches)
+
+[Basic branching and merging explained](#basic-branching-and-merging)
+
+[Branch management](#branch-management)
+
+[Changing branch names](#changing-a-branch-name)
+
+[Git workflows](#git-workflows)
+
+[Remote branches](#remote-branches)
+
+[Pushing, tracking, pulling, deleting](#pushing)
+
 ---
 
 ## Quick overview
@@ -116,7 +136,11 @@ More about merging in advanced merging.
 
 `--merged` and `--no-merged` lists branches that have merged into your checked-out branch.
 
-Add a `<branchname>` in order to apply the merge command to that specific branch.
+Add a `<branchname>` in order to apply the `--merge` command to that specific branch (instead of the checked out branch)
+
+e.g
+
+`git branch --no-merged testbranch`
 
 The branches that `--merged` lists that don't have the * next to them are generally fine to delete.
 
@@ -151,11 +175,109 @@ Only then can you delete the old branch master.
 
 ---
 
+## Git workflows
+
+The long branching workflow:
+
+- Contains a stable, master/main branch. 
+- That master branch will have a parallel branch named develop, dev, or next, which is the one they work from or test stability. When this gets to a stable state, it will merge into master (or really, since master isn't being developed i.e it doesn't diverge), master will simply fast forward.
+- This develop branch will pull into topic branches, which are much short lived and used for issues and other featuers.
+- The idea is that these branches have multiple levels of stability, so when they reach a stable level, they'r merged into the branch above them.
+
+This looks something like this.
+
+![gitsiloworkflow](../gitsiloworkflow.png)
+
+Furthermore, you can include topic branches, and topic branches within topic branches. A topic branch is just a short lived branch that you create for a paraticular feature or issue.
+
+1. Consider doing some work on master, branching off for an issue (iss91), then branching off again for a different way of handling that issue (iss91v2)
+2. You go back to your master branch and then do a few commits, then branch off into an dumb idea branch.
+
+It should look something like this:
+
+![topic branch](../topicbranchespre.png)
+
+But you realize that dumb idea was good. So what you can do here is a fast forward, which implements dumbidea, then a 3 point merge iwth iss91v2, which would discard some parts of the original iss91.
+
+It should end up like this:
+
+![topic branch post](../Screenshot%202022-03-13%20192115.png)
+
+---
+
+## Remote Branches
+
+Remotes take on the name `<remote name> / <branch name>`
+
+If you clone a repo, and say, you work on it, you update your local master pointer. The origin/master pointer will not move unless you contact the origin server. However, if someone else pushes work onto origin/master, that means your work will diverge. Before `git fetch` ing, it might look something like this.
+
+![beforefetch](../beforefetch.png)
+
+and after you fetch:
+
+![afterfetch](../afterfetch.png)
+
+Here's how it looks if you add another remote that's working on the same project, say, `teamone`, and see what they've done. You can see their references and where they're at. Right now, because it is just a subset of the origin remote, there is only really a reference/pointer update (meaning you'll just fetch their point, no new work is added), but if they branched off, you will fetch that too.
+
+![teamonefetch](../Screenshot%202022-03-15%20115341.png)
+
+NOTE: Fetching does not give you local editable copies of what you fetch. If you fetch branch `serverfix` and you don't want to merge it with your own and instead work on a direct copy, you can use:
+
+`git checkout -b serverfix origin/serverfix` which will create a new branch that starts with origin/serverfix is and tracks the specified remote branch. 
+
+---
+
+## Pushing
+
+`git push <remote> <branch>` pushes the branch onto the remote specified
+
+`git push <remote> <local branch>:<remote branch>` allows you to push a branch onto a different remote branch
+
+---
+
+## Tracking
+
+- Local branch is called the tracking branch
+- Remote branch that it tracks is the upstream branch
+- `git pull` automatically pulls from the tracking branch
+
+`git checkout -b <branchname> <remotename>/<remotebranch>` will create a new branch (with the name you specify) tracking specified remote branch
+
+If you just want to set up a pair of same names:
+
+`git checkout --track <remotename>/<branchname>` 
+
+or even shorter:
+
+`git checkout <branchname>` where the branch must NOT locally exist and match a remote branch name
+
+`git branch -u <remote>/<branch>` will track your checked-out branch to specified remote/branch
+
+`git branch -vv` shows what tracking branches you have set up (from last time you fetched!), last commit, and if its ahead or behind.
+
+FETCH FROM ALL REMOTES to show most updated version of `git branch -vv`. You can do `git fetch --all`
+
+### Pulling
+
+Just a fetch followed by a merge.
+
+Note, just explicity fetch and merge. 
+
+---
+
+## Deleting
+
+`git push <remote> --delete <branch>` deletes the branch remotely
+
+---
+
 ## Branch commands
 
 `git branch` by itself shows all the current local branches, with a * next to your current branch
 
 `-v` shows the last single commit on each branch
+
+`-vv` shows what tracking branches you have set up (from last time you fetched!), last commit, and if its ahead or behind.
 
 `--merged` and `--no-merged` lists branches that have merged into your checked-out branch.
 
@@ -168,6 +290,25 @@ Only then can you delete the old branch master.
 `git checkout <branchname>` will switch you to branchname's branch
 
 `git checkout -b <branchname>` will create a new branch and switch to it simultaneously
+
+---
+
+Tracking
+
+Note: `@{u} or @{upstream}` automatically refers to the upstream branch.
+
+`git branch -u <remote>/<branch>` will track your checked-out branch to specified remote/branch
+
+`git checkout -b <branchname> <remotename>/<remotebranch>` will create a new branch (with the name you specify) tracking specified remote branch
+
+If you just want to set up a pair of same names:
+
+`git checkout --track <remotename>/<branchname>` 
+
+or even shorter:
+
+`git checkout <branchname>` where the branch must NOT locally exist and match a remote branch name
+
 
 ---
 Note: you can use switch now in git 2.23
@@ -189,6 +330,7 @@ merging
 
 ---
 
+info
 
 `git status` or `git log --decorate` should let you know what branch you're on.
 
@@ -199,4 +341,16 @@ Note that `git log` only shows commit history of the branches BELOW the one you'
 `git log <branchname>` shows the commit log for that branch.
 
 `git log --all` will show the log of all branches.
+
+---
+
+remotes
+
+`git ls-remote <remote>` or `git remote show <remote>` will show remote references (such as branches, tags, and so on)
+
+`git fetch <remote>` fetches data and commits that you don't have, and updates your local data base, moving the origin/master pointer to its update position
+
+`git push <remote> <branch>` pushs the branch commits to the remote specified
+
+`git push <remote> --delete <branch>` deletes the branch remotely
 
